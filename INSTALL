@@ -1,0 +1,41 @@
+# インストール
+
+```bash
+$ brew tap riscv/riscv
+$ brew install riscv-tools
+$ make    // エラー発生
+
+riscv64-unknown-elf-gcc    -c -o kernel/entry.o kernel/entry.S
+dyld: Library not loaded: /usr/local/opt/isl/lib/libisl.21.dylib
+  Referenced from: /usr/local/Cellar/riscv-gnu-toolchain/gnu/libexec/gcc/riscv64-unknown-elf/9.2.0/cc1
+  Reason: image not found
+riscv64-unknown-elf-gcc: internal compiler error: Abort trap: 6 signal terminated program cc1
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <https://gcc.gnu.org/bugs/> for instructions.
+make: *** [kernel/entry.o] Error 4
+
+         //  対応
+
+$ install_name_tool -change /usr/local/opt/isl/lib/libisl.21.dylib /usr/local/opt/isl/lib/libisl.dylib /usr/local/Cellar/riscv-gnu-toolchain/gnu/libexec/gcc/riscv64-unknown-elf/9.2.0/cc1
+
+$ make
+$ brew upgrade qemu
+$ make qemu
+
+...
+xv6 kernel is booting
+
+virtio disk init 0
+init: starting sh
+$ ls
+.              1 1 1024
+..             1 1 1024
+README         2 2 1982
+xargstest.sh   2 3 93
+cat            2 4 24064
+...
+
+// Cntl-a x
+$ QEMU: Terminated
+```
