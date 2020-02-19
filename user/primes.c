@@ -21,9 +21,9 @@ top:
     panic("read initial prime", r);
 
   printf("prime %d\n", prime);
-                      // forkできる数に上限がある。17以上の素数は35までには
-  if (prime > 13) {   // もうフィルターべき数がないので印字だけしてforkしない。
-    goto top;         //  prime > 17 とするとforkエラーになる
+                            // forkできる数には上限がある。2乗した数が35を超えた素数は
+  if (prime*prime > 35) {   // もうフィルターべき数がないので印字だけしてforkしない。
+    goto top;
   }
 
   // 右隣のプロセスをフォーク
